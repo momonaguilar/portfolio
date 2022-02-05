@@ -1,0 +1,32 @@
+name: Portfolio
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Get the current branch name
+      shell: bash
+      run: echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
+      id: branchname
+
+    - name: Send notification message to Telegram bot
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_TO }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        message: |
+          Github Action Notification
+
+          👨‍💻 ${{ github.actor }} created commit in branch ${{ steps.branchname.outputs.branch }} of repo ${{ github.repository }}
+          
+          💌 Commit message: ${{ github.event.commits[0].message }}
+
+          🧩 See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
