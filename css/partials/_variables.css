@@ -1,4 +1,4 @@
-html,body{
+html, body{
     margin: 0%;
     box-sizing: border-box;
     width: 100%;
@@ -6,7 +6,6 @@ html,body{
 }
 
 /* css variables */
-
 :root{
     --primary-color: #4458DC;
     --primary-color2: #854fee;
