@@ -36,18 +36,18 @@
     top: -2px; left: -2px;
     bottom: -2px; right: -2px;
     background: var(--gradient-color);
-    content: '';
+    content: ' ';
     z-index:-1;
     border-radius: 4px;
 }
 
-.button .button-secondary-button {
+.button.secondary-button {
     background: white;
     background-clip: padding-box;
-    transition: background .62 ease;
+    transition: background .6s ease;
 }
 
-.button .button-secondary-button:howver{
+.button.secondary-button:hover{
     background: var(--gradient-color);
     color: whitesmoke;
     box-shadow: var(--box-shadow);
