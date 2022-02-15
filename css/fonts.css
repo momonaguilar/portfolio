@@ -1,1 +1,6 @@
-@import url('../fonts/style.css')
+/* @font-face */ 
+
+@font-face{
+    font-family: "Roboto";
+    src: '../fonts/Roboto/Roboto-Regular.ttf';
+}
