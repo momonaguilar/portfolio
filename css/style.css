@@ -17,13 +17,13 @@
 }
 
 .header_area .main-menu .nav-item .nav-link{
-    font: normal 500 15px/2px var(--roboto);
+    font: normal 500 15px/ 2px var(--roboto);
     text-transform: uppercase;
     padding: 1.7rem;
     color: var(--title-color);
 }
 
-.header_area .main-menu .navbar-nav .nav-item .nav-link .active a{
+.header_area .main-menu .navbar-nav .active a{
     background: var(--gradient-color);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -40,13 +40,14 @@
 .site-main .site-banner {
     background: url(./img/banner/home-banner.png) no-repeat 0% 50%;
 }
+
 .site-main .site-banner .site-title h3{
     padding-top: 35%;
     font-weight: 500;
 }
 
 .site-main .site-banner .site-title h3::after{
-    content: "";
+    content: " ";
     height: 2px;
     width: 18vw;
     background: black;
@@ -63,8 +64,8 @@
     font-size: 1.5rem;
 }
 
-.site-main .site-banner .banner-image >img{
-    padding: 7rem;
+.site-main .site-banner .banner-image > img{
+    padding: 7rem 0;
     width: 90rem;
 }
 
