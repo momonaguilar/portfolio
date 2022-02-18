@@ -69,3 +69,19 @@
     width: 90rem;
 }
 
+
+/* about section styles */
+
+.site-main .about-area{
+    padding: 8em 5rem;
+}
+
+.site-main .about-area .about-title h2 > span{
+    display: block;
+    font: normal bold 49px/ 60px var(--roboto);
+    letter-spacing: 10px;
+}
+
+.site-main .about-area .about-title .paragraph > p{
+    padding: .4rem 0;
+}
