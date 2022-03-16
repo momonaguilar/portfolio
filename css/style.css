@@ -96,7 +96,7 @@
 }
 
 .site-main .brand-area .first-row .col-lg-4 > .single-brand {
-  /* border: 0.5px solid var(--border-color); */
+  border: 0.1px solid var(--border-color);
   text-align: center;
   padding: 1.8rem 0rem;
   margin: 0.9rem 0;
@@ -129,4 +129,35 @@
 
 .site-main .brand-area .experience-area .years-area {
   background: block;
+  padding: 2rem 0;
+  width: 40rem;
+  height: 18rem;
+  padding-left: 8rem;
+  position: relative;
+}
+
+.site-main .brand-area .experience-area .bg-panel {
+  /* background: url(); */
+  position: absolute;
+  left: -190px;
+  top: 0%;
+  background: #e029290a;
+  width: 400px;
+  height: 400px;
+  margin-left: 340px;
+  z-index: -1;
+}
+
+.site-main .brand-area .experience-area .years-area .years {
+  font: normal bold 84px/40px var(--roboto);
+  color: var(--primary-color2);
+  z-index: 2;
+}
+
+.site-main .brand-area .experience-area .years-area h2 > span {
+  font: normal 600 22px/30px var(--roboto);
+}
+
+.site-main .brand-area .experience-area .call-area {
+  padding-left: 10rem;
 }
