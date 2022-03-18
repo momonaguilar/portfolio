@@ -2,37 +2,42 @@ name: CI
 
 on:
   push:
-    branches: [ master, main ]
   pull_request:
-    branches: [ master, main ]
+    branches:
+      - main
 
 jobs:
-
   build:
     runs-on: ubuntu-latest
+
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v2
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
 
-    # Runs a single command using the runners shell
-    - name: Run a one-line script
-      run: echo Starting GitHub actions CI/CD...
+      # Runs a single command using the runners shell
+      - name: Run a one-line script
+        run: echo Starting GitHub actions CI/CD...
 
-    - name: Get the current branch name
-      shell: bash
-      run: echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
-      id: branchname
+      # extract branch name
+      - if: github.event_name == 'pull_request'
+        run: echo "BRANCH_NAME=${GITHUB_HEAD_REF}" >> $GITHUB_ENV
+      - if: github.event_name != 'pull_request'
+        run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+      # print branch name
+      - name: Get branch name
+        run: echo "::set-output name=branch::${BRANCH_NAME}"
+        id: branchname
 
-    - name: Send notification message to Telegram bot
-      uses: appleboy/telegram-action@master
-      with:
-        to: ${{ secrets.TELEGRAM_TO }}
-        token: ${{ secrets.TELEGRAM_TOKEN }}
-        message: |
-          Github Action Notification
+      - name: Send notification message to Telegram bot
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            Github Alerts
 
-          👨‍💻 ${{ github.actor }} created commit in branch ${{ steps.branchname.outputs.branch }} of repo ${{ github.repository }}
-          
-          💌 Commit message: ${{ github.event.commits[0].message }}
+            👨‍💻 ${{ github.actor }} created commit in branch  `${{ steps.branchname.outputs.branch }}` of repo ${{ github.repository }}
 
-          🧩 See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+            💌 Commit message: ${{ github.event.commits[0].message }}
+
+            🧩 See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
