@@ -13,33 +13,50 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+    - uses: actions/checkout@v2
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Starting GitHub actions CI/CD...
+    # Runs a single command using the runners shell
+    - name: Run a one-line script
+      run: echo Starting GitHub actions CI/CD...
 
-      # extract branch name
-      - if: github.event_name == 'pull_request'
-        run: echo "BRANCH_NAME=${GITHUB_HEAD_REF}" >> $GITHUB_ENV
-      - if: github.event_name != 'pull_request'
-        run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
-      # print branch name
-      - name: Get branch name
-        run: echo "::set-output name=branch::${BRANCH_NAME}"
-        id: branchname
+    # extract branch name
+    - if: github.event_name == 'pull_request'
+      run: echo "BRANCH_NAME=${GITHUB_HEAD_REF}" >> $GITHUB_ENV
+    - if: github.event_name != 'pull_request'
+      run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+      
+    # print branch name
+    - name: Get branch name
+      run: echo "::set-output name=branch::${BRANCH_NAME}"
+      id: branchname
 
-      - name: Send notification message to Telegram bot
-        uses: appleboy/telegram-action@master
-        with:
-          to: ${{ secrets.TELEGRAM_TO }}
-          token: ${{ secrets.TELEGRAM_TOKEN }}
-          message: |
-            Github Alerts
+    # Doc: https://medium.com/cocoaacademymag/how-to-integrate-github-actions-with-slack-telegram-and-whatsapp-67a4dca0f17d
+    # Doc: https://medium.com/swlh/setting-up-github-actions-for-go-project-ea84f4ed3a40
 
-            👨‍💻 ${{ github.actor }} created commit in branch  `${{ steps.branchname.outputs.branch }}` of repo ${{ github.repository }}
+    - name: Send notification message to Telegram bot
+      run: echo "Sending notification"
 
-            💌 Commit message: ${{ github.event.commits[0].message }}
-
-            🧩 See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+    - if: github.event_name == 'pull_request'
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_TO }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        message: |
+          Github Alerts
+          👨‍💻 ${{ github.actor }} created PR `${{ steps.branchname.outputs.branch }}` to `main` in repo `${{ github.repository }}, please review.`
+          
+          📜 PR title: ${{ github.event.pull_request.title }}
+          
+          🧩 See PR: https://github.com/${{ github.repository }}/pull/${{ github.event.pull_request.number }}
+    - if: github.event_name != 'pull_request'
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_TO }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        message: |
+          Github Alerts
+          👨‍💻 ${{ github.actor }} created commit in branch `${{ steps.branchname.outputs.branch }}` of repo `${{ github.repository }}`
+          
+          💌 Commit message: ${{ github.event.commits[0].message }}
+          
+          🧩 See changes: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
