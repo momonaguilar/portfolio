@@ -43,6 +43,7 @@ jobs:
         token: ${{ secrets.TELEGRAM_TOKEN }}
         message: |
           Github Alerts
+
           👨‍💻 ${{ github.actor }} created PR `${{ steps.branchname.outputs.branch }}` to `main` in repo `${{ github.repository }}, please review.`
           
           📜 PR title: ${{ github.event.pull_request.title }}
@@ -55,6 +56,7 @@ jobs:
         token: ${{ secrets.TELEGRAM_TOKEN }}
         message: |
           Github Alerts
+          
           👨‍💻 ${{ github.actor }} created commit in branch `${{ steps.branchname.outputs.branch }}` of repo `${{ github.repository }}`
           
           💌 Commit message: ${{ github.event.commits[0].message }}
